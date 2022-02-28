@@ -1,8 +1,15 @@
-{% extends "index.html" %}
+{% extends "public/templates/public_template.html" %}
 
-{% block content %}
+{% block title %}About{% endblock %}
 
-<h1>My about page</h1>
-<p>Stay tuned!</p>
+{% block main %}
 
-{% endblock content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1>About</h1>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
