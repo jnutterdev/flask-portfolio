@@ -4,9 +4,17 @@ from datetime import datetime
 from flask import request, redirect
 from sassutils.wsgi import SassMiddleware
 
-app.wsgi_app = SassMiddleware(app.wsgi_app, {
-    'app': ('static/sass', 'static/css', '/static/css')
-})
+app.wsgi_app = SassMiddleware(
+    app.wsgi_app,
+    {
+        'app': {
+            'sass_path': 'static/sass',
+            'css_path': 'static/css',
+            'wsgi_path': '/static/css',
+            'strip_extension': False
+        }
+    }
+)
 
 @app.route("/")
 def index():
@@ -24,6 +32,9 @@ def clean_date(dt):
 def sign_up():
 
     if request.method == "POST":
+
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         req = request.form
         print(req)
