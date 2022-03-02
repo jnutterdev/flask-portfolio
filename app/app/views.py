@@ -16,6 +16,10 @@ app.wsgi_app = SassMiddleware(
     }
 )
 
+@app.template_filter("clean_date")
+def clean_date(dt):
+    return dt.strftime("%d %b %Y")
+
 @app.route("/")
 def index():
     return render_template("public/index.html")
@@ -24,9 +28,47 @@ def index():
 def about():
     return render_template("public/about.html")
 
-@app.template_filter("clean_date")
-def clean_date(dt):
-    return dt.strftime("%d %b %Y")
+@app.route("/profile/<username>")
+def profile(username):
+
+    users = {
+    "longlost": {
+        "name": "John Nutter",
+        "bio": "Daddy",
+        "twitter_handle": "@withonlyamap"
+    },
+    "straightlacedx": {
+        "name": "Erika Martinez Nutter",
+        "bio": "Mommy",
+        "twitter_handle": "@art_nutter"
+    },
+    "vbeetle": {
+        "name": "Vincent Nutter",
+        "bio": "Son",
+        "twitter_handle": "@vbeetle"
+    },
+    "lamblamb": {
+        "name": "Lucia Nutter",
+        "bio": "Daughter",
+        "twitter_handle": "@lamblamb"
+    }
+}
+
+    user = None
+
+    if username in users:
+        user = users[username]
+
+    return render_template("public/profile.html", username=username, user=user)
+
+@app.route("/multiple/<country>/<state>/<city>")
+def locations(country, state, city):
+
+    print(f"Country is {country}")
+    print(f"State is {state}")
+    print(f"City is {city}")
+
+    return f"Country is {country}, State is {state}, City is {city}"
 
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
