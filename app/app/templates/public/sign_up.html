@@ -33,7 +33,11 @@
                         <button class="button is-success">
                     Login
                   </button>
+                        <div class="message is-danger">{% if feedback %}
+                            <p class="is-danger float-right">{{ feedback }}</p>
+                            {% endif %}
                     </p>
+                    </div>
                 </div>
 
             </form>
