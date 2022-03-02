@@ -3,6 +3,7 @@ from flask import render_template
 from datetime import datetime
 from flask import request, redirect
 from sassutils.wsgi import SassMiddleware
+from flask import jsonify, make_response
 
 app.wsgi_app = SassMiddleware(
     app.wsgi_app,
@@ -69,6 +70,26 @@ def locations(country, state, city):
     print(f"City is {city}")
 
     return f"Country is {country}, State is {state}, City is {city}"
+
+@app.route("/json", methods=["POST"])
+def json_example():
+
+    if request.is_json:
+
+        req = request.get_json()
+
+        response_body = {
+            "message": "JSON received!",
+            "sender": req.get("name")
+        }
+
+        res = make_response(jsonify(response_body), 200)
+
+        return res
+
+    else:
+
+        return make_response(jsonify({"message": "Request body must be JSON!"}), 400)
 
 @app.route("/sign-up", methods=["GET", "POST"])
 def sign_up():
